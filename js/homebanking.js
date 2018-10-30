@@ -26,12 +26,63 @@ function mensajeFondoInsuficiente(){
     alert("No hay saldo suficiente." + "\n" + "Saldo Disponible: " + saldoCuenta);
 }
 
-//Ejecución de las funciones que actualizan los valores de las variables en el HTML.
+//LOGIN USUARIO
 window.onload = function() {
-    iniciarSesion();    
+    document.getElementById("usuario-cuenta").classList.add("ocultar");
+    document.getElementById("usuario-loguedo").classList.add("ocultar");
 }
 
-//Funciones que tenes que completar
+function iniciarSesion() {
+    usuarioClave = parseInt(prompt("Ingrese su clave"));
+    if (usuarioClave == clave) {
+        alert("Bienvenido/a " + nombreUsuario + " ya puedes comenzar a realizar operaciones");
+        cargarPantalla()
+        cargarNombreEnPantalla();
+        actualizarSaldoEnPantalla();
+        actualizarLimiteEnPantalla();
+    } else {
+        alert("Código incorrecto. Tu dinero ha sido retenido por cuestiones de seguridad.");
+        noCargarCuenta();
+        saldoCuenta = 0;
+    }
+}
+
+function cerrarSesion() {
+    alert("Cerrando sesión...");
+    document.getElementById("usuario-cuenta").classList.add("ocultar");
+    document.getElementById("usuario-loguedo").classList.add("ocultar");
+    document.getElementById("usuario-login").classList.remove("ocultar");
+}
+
+//Funciones que actualizan el valor de las variables en el HTML
+
+function cargarPantalla() {
+    document.getElementById("usuario-cuenta").classList.remove("ocultar");
+    document.getElementById("usuario-loguedo").classList.remove("ocultar");
+    document.getElementById("usuario-login").classList.add("ocultar");
+}
+
+function cargarNombreEnPantalla() {
+    document.getElementById("nombre").innerHTML = "Bienvenido/a " + nombreUsuario;
+}
+
+function actualizarSaldoEnPantalla() {
+    document.getElementById("saldo-cuenta").innerHTML = "$" + saldoCuenta;
+    if (saldoCuenta <= 100) {
+        document.getElementById("aviso-saldo").classList.add("red-container");
+    }
+}
+
+function actualizarLimiteEnPantalla() {
+    document.getElementById("limite-extraccion").innerHTML = "Tu límite de extracción es: $" + limiteExtraccion;
+}
+
+function noCargarCuenta() {
+    document.getElementById("datos-cuenta").innerHTML = "Debe loguearse para operar";
+}
+
+
+//CAMBIAR LIMITE EXTRACCIÓN
 
 function cambiarLimiteDeExtraccion() {
     var cambiarLimite = parseInt(prompt("Ingrese el nuevo límite de extracción"));
@@ -45,6 +96,7 @@ function cambiarLimiteDeExtraccion() {
     }
 }
 
+//EXTRAER DINERO
 
 function extraerDinero() {
     var cantidadExtraer = parseInt(prompt("Cuanto dinero quiere extraer?"));
@@ -65,6 +117,8 @@ function extraerDinero() {
     }
 }
 
+//DEPOSITAR DINERO
+
 function depositarDinero() {
     var cantidadDepositar = parseInt(prompt("Cuanto dinero quiere depositar?"));
     console.log(cantidadDepositar);
@@ -78,6 +132,8 @@ function depositarDinero() {
     }
     actualizarSaldoEnPantalla();
 }
+
+//PAGAR SERVICIOS
 
 var seleccion;
 
@@ -129,6 +185,7 @@ function servicioSeleccionado() {
     actualizarSaldoEnPantalla();
 }
 
+//TRANSFERIR DINERO
 
 function transferirDinero() {
     monto = parseInt(prompt("Cuanto dinero desea transferir?"));
@@ -164,37 +221,4 @@ function confirmaTransferencia() {
     saldoCuenta = saldoCuenta - monto;
     actualizarSaldoEnPantalla();
     alert("Se han transferido: " + monto + "\n" + "Cuenta destino: " + cuenta);
-}
-
-function iniciarSesion() {
-    usuarioClave = parseInt(prompt("Ingrese su clave"));
-
-    if (usuarioClave == clave) {
-        alert("Bienvenido/a " + nombreUsuario + "ya puedes comenzar a realizar operaciones");
-        cargarNombreEnPantalla();
-        actualizarSaldoEnPantalla();
-        actualizarLimiteEnPantalla();
-    } else {
-        alert("Código incorrecto. Tu dinero ha sido retenido por cuestiones de seguridad.");
-        noCargarCuenta();
-        saldoCuenta = 0;
-    }
-}
-
-
-//Funciones que actualizan el valor de las variables en el HTML
-function cargarNombreEnPantalla() {
-    document.getElementById("nombre").innerHTML = "Bienvenido/a " + nombreUsuario;
-}
-
-function actualizarSaldoEnPantalla() {
-    document.getElementById("saldo-cuenta").innerHTML = "$" + saldoCuenta;
-}
-
-function actualizarLimiteEnPantalla() {
-    document.getElementById("limite-extraccion").innerHTML = "Tu límite de extracción es: $" + limiteExtraccion;
-}
-
-function noCargarCuenta() {
-    document.getElementById("datos-cuenta").innerHTML = "Debe loguearse para operar";
 }

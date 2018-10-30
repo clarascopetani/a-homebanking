@@ -8,14 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
+    <script src="js/homebanking.js"></script>
     <div class="header">
       <img class="logo" src="img/logo.png"/>
       <div class="align-left">
-        <span id="nombre">Bienvenido/a</span>
-        <img class="avatar" src="img/avatar.svg"/>
+          <div id="usuario-login">
+            <button class="botones" onclick="iniciarSesion()">INICIAR SESIÓN</button>
+          </div>
+          <div id="usuario-loguedo" class="ocultar">
+            <span id="nombre">Bienvenido/a</span>
+            <img class="avatar" src="img/avatar.svg"/>
+            <button class="botones" onclick="cerrarSesion()">CERRAR SESIÓN</button>
+          </div>
       </div>
     </div>
-    <div id="datos-cuenta" class="white-container">
+    <div id="usuario-cuenta" class="white-container ocultar">
       <div class="menu-container">
         <h1 class="tu-cuenta">Tu cuenta</h1>
         <button class="links" onclick="extraerDinero()">Extraer dinero</button>
@@ -24,7 +31,7 @@
         <button class="links" onclick="transferirDinero()">Transferir dinero</button>
         <button class="links" onclick="cambiarLimiteDeExtraccion()">Cambiar límite de extracción</button>
       </div>
-      <div class="green-container">
+      <div id="aviso-saldo" class="green-container">
         <div class="cuenta-info">
           <p>Saldo en tu cuenta</p>
           <h3 id="saldo-cuenta">$</h3>
@@ -32,6 +39,6 @@
         </div>
       </div>
     </div>
-    <script src="js/homebanking.js"></script>
+    
   </body>
 </html>
