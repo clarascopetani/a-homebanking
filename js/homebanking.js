@@ -10,8 +10,8 @@ var monto = 0;
 
 // Servicios Disponibles
 var agua = 350;
-var telefono = 425;
 var luz = 210;
+var telefono = 425;
 var internet = 570;
 
 // Cuentas Amigas
@@ -19,7 +19,7 @@ var cuentaAmiga1 = 1234567;
 var cuentaAmiga2 = 7654321;
 
 function mensajeIsNan(){
-    alert("Debe ingresar un monto numérico.");
+    alert("Debe ingresar un número.");
 }
 
 function mensajeFondoInsuficiente(){
@@ -79,45 +79,50 @@ function depositarDinero() {
     actualizarSaldoEnPantalla();
 }
 
+var seleccion;
 
 function pagarServicio() {
     servicio = parseInt(prompt("Ingrese el número que corresponda con el servicio que quiera pagar." + "\n" + "1 - Agua" + "\n" + "2 - Luz" + "\n" + "3 - Internet" + "\n" + "4 - Telefono"));
     switch (servicio) {
         case 1:
+            servicio = agua;
+            seleccion = "Agua";
             servicioSeleccionado();
-            console.log(servicio + " - Agua");
+            console.log(servicio + " - " + seleccion);
             break;
         case 2:
+            servicio = luz;
+            seleccion = "Luz";
             servicioSeleccionado();    
-            console.log(servicio + " - Luz");
+            console.log(servicio + " - " + seleccion);
             break;
         case 3:
+            servicio = internet;
+            seleccion = "Internet";
             servicioSeleccionado();
-            console.log(servicio + " - Internet");
+            console.log(servicio + " - " + seleccion);
             break;
         case 4:
+            servicio = telefono;
+            seleccion = "Teléfono";
             servicioSeleccionado();
-            console.log(servicio + " - Telefono");
+            console.log(servicio + " - " + seleccion);
             break;
         default:
-            alert("El servicio no se encuentra disponible.");
+            if (isNaN(servicio)) {
+                servicio = 0;
+                mensajeIsNan();
+            } else {
+                alert("El servicio no se encuentra disponible.");
+            }
     }
 
 }
 
 function servicioSeleccionado() {
-    if (servicio == 1 && saldoCuenta >= agua) {
-        saldoCuenta = saldoCuenta - agua;
-        alert("Has pagado el servicio Agua." + "\n" + "Saldo Anterior: " + (saldoCuenta + agua) + "\n" + "Dinero descontado: " + (agua) + "\n" + "Saldo Actual: " + saldoCuenta); 
-    } else if (servicio == 2 && saldoCuenta >= telefono) {
-        saldoCuenta = saldoCuenta - telefono;
-        alert("Has pagado el servicio teléfono." + "\n" + "Saldo Anterior: " + (saldoCuenta + telefono) + "\n" + "Dinero descontado: " + (telefono) + "\n" + "Saldo Actual: " + saldoCuenta); 
-    } else if (servicio == 3 && saldoCuenta >= luz) {
-        saldoCuenta = saldoCuenta - luz;
-        alert("Has pagado el servicio luz." + "\n" + "Saldo Anterior: " + (saldoCuenta + luz) + "\n" + "Dinero descontado: " + (luz) + "\n" + "Saldo Actual: " + saldoCuenta); 
-    }  else if (servicio == 4 && saldoCuenta >= internet) {
-        saldoCuenta = saldoCuenta - internet;
-        alert("Has pagado el servicio internet." + "\n" + "Saldo Anterior: " + (saldoCuenta + internet) + "\n" + "Dinero descontado: " + (internet) + "\n" + "Saldo Actual: " + saldoCuenta); 
+    if (saldoCuenta >= servicio) {
+        saldoCuenta = saldoCuenta - servicio;
+        alert("Has pagado el servicio " + seleccion + "\n" + "Saldo Anterior: " + (saldoCuenta + servicio) + "\n" + "Dinero descontado: " + (servicio) + "\n" + "Saldo Actual: " + saldoCuenta); 
     } else {
         mensajeFondoInsuficiente();
     }
