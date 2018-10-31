@@ -10,8 +10,8 @@ var monto = 0;
 
 // Servicios Disponibles
 var agua = 350;
-var telefono = 425;
 var luz = 210;
+var telefono = 425;
 var internet = 570;
 
 // Cuentas Amigas
@@ -19,19 +19,72 @@ var cuentaAmiga1 = 1234567;
 var cuentaAmiga2 = 7654321;
 
 function mensajeIsNan(){
-    alert("Debe ingresar un monto numérico.");
+    alert("Debe ingresar un número.");
 }
 
 function mensajeFondoInsuficiente(){
     alert("No hay saldo suficiente." + "\n" + "Saldo Disponible: " + saldoCuenta);
 }
 
-//Ejecución de las funciones que actualizan los valores de las variables en el HTML.
+//LOGIN USUARIO
 window.onload = function() {
-    iniciarSesion();    
+    document.getElementById("usuario-cuenta").classList.add("ocultar");
+    document.getElementById("usuario-loguedo").classList.add("ocultar");
 }
 
-//Funciones que tenes que completar
+function iniciarSesion() {
+    usuarioClave = parseInt(prompt("Ingrese su clave"));
+    if (usuarioClave == clave) {
+        alert("Bienvenido/a " + nombreUsuario + " ya puedes comenzar a realizar operaciones");
+        cargarPantalla()
+        cargarNombreEnPantalla();
+        actualizarSaldoEnPantalla();
+        actualizarLimiteEnPantalla();
+    } else {
+        alert("Código incorrecto. Tu dinero ha sido retenido por cuestiones de seguridad.");
+        noCargarCuenta();
+        saldoCuenta = 0;
+    }
+}
+
+function cerrarSesion() {
+    alert("Cerrando sesión...");
+    document.getElementById("usuario-cuenta").classList.add("ocultar");
+    document.getElementById("usuario-loguedo").classList.add("ocultar");
+    document.getElementById("usuario-login").classList.remove("ocultar");
+}
+
+//Funciones que actualizan el valor de las variables en el HTML
+
+function cargarPantalla() {
+    document.getElementById("usuario-cuenta").classList.remove("ocultar");
+    document.getElementById("usuario-loguedo").classList.remove("ocultar");
+    document.getElementById("usuario-login").classList.add("ocultar");
+}
+
+function cargarNombreEnPantalla() {
+    document.getElementById("nombre").innerHTML = "Bienvenido/a " + nombreUsuario;
+}
+
+function actualizarSaldoEnPantalla() {
+    document.getElementById("saldo-cuenta").innerHTML = "$" + saldoCuenta;
+    if (saldoCuenta <= 100) {
+        document.getElementById("aviso-saldo").classList.add("red-container");
+    } else {
+        document.getElementById("aviso-saldo").classList.remove("red-container");
+    }
+}
+
+function actualizarLimiteEnPantalla() {
+    document.getElementById("limite-extraccion").innerHTML = "Tu límite de extracción es: $" + limiteExtraccion;
+}
+
+function noCargarCuenta() {
+    document.getElementById("datos-cuenta").innerHTML = "Debe loguearse para operar";
+}
+
+
+//CAMBIAR LIMITE EXTRACCIÓN
 
 function cambiarLimiteDeExtraccion() {
     var cambiarLimite = parseInt(prompt("Ingrese el nuevo límite de extracción"));
@@ -45,6 +98,7 @@ function cambiarLimiteDeExtraccion() {
     }
 }
 
+//EXTRAER DINERO
 
 function extraerDinero() {
     var cantidadExtraer = parseInt(prompt("Cuanto dinero quiere extraer?"));
@@ -65,6 +119,8 @@ function extraerDinero() {
     }
 }
 
+//DEPOSITAR DINERO
+
 function depositarDinero() {
     var cantidadDepositar = parseInt(prompt("Cuanto dinero quiere depositar?"));
     console.log(cantidadDepositar);
@@ -79,51 +135,59 @@ function depositarDinero() {
     actualizarSaldoEnPantalla();
 }
 
+//PAGAR SERVICIOS
+
+var seleccion;
 
 function pagarServicio() {
     servicio = parseInt(prompt("Ingrese el número que corresponda con el servicio que quiera pagar." + "\n" + "1 - Agua" + "\n" + "2 - Luz" + "\n" + "3 - Internet" + "\n" + "4 - Telefono"));
     switch (servicio) {
         case 1:
+            servicio = agua;
+            seleccion = "Agua";
             servicioSeleccionado();
-            console.log(servicio + " - Agua");
+            console.log(servicio + " - " + seleccion);
             break;
         case 2:
+            servicio = luz;
+            seleccion = "Luz";
             servicioSeleccionado();    
-            console.log(servicio + " - Luz");
+            console.log(servicio + " - " + seleccion);
             break;
         case 3:
+            servicio = internet;
+            seleccion = "Internet";
             servicioSeleccionado();
-            console.log(servicio + " - Internet");
+            console.log(servicio + " - " + seleccion);
             break;
         case 4:
+            servicio = telefono;
+            seleccion = "Teléfono";
             servicioSeleccionado();
-            console.log(servicio + " - Telefono");
+            console.log(servicio + " - " + seleccion);
             break;
         default:
-            alert("El servicio no se encuentra disponible.");
+            if (isNaN(servicio)) {
+                servicio = 0;
+                mensajeIsNan();
+            } else {
+                alert("El servicio no se encuentra disponible.");
+            }
     }
 
 }
 
 function servicioSeleccionado() {
-    if (servicio == 1 && saldoCuenta >= agua) {
-        saldoCuenta = saldoCuenta - agua;
-        alert("Has pagado el servicio Agua." + "\n" + "Saldo Anterior: " + (saldoCuenta + agua) + "\n" + "Dinero descontado: " + (agua) + "\n" + "Saldo Actual: " + saldoCuenta); 
-    } else if (servicio == 2 && saldoCuenta >= telefono) {
-        saldoCuenta = saldoCuenta - telefono;
-        alert("Has pagado el servicio teléfono." + "\n" + "Saldo Anterior: " + (saldoCuenta + telefono) + "\n" + "Dinero descontado: " + (telefono) + "\n" + "Saldo Actual: " + saldoCuenta); 
-    } else if (servicio == 3 && saldoCuenta >= luz) {
-        saldoCuenta = saldoCuenta - luz;
-        alert("Has pagado el servicio luz." + "\n" + "Saldo Anterior: " + (saldoCuenta + luz) + "\n" + "Dinero descontado: " + (luz) + "\n" + "Saldo Actual: " + saldoCuenta); 
-    }  else if (servicio == 4 && saldoCuenta >= internet) {
-        saldoCuenta = saldoCuenta - internet;
-        alert("Has pagado el servicio internet." + "\n" + "Saldo Anterior: " + (saldoCuenta + internet) + "\n" + "Dinero descontado: " + (internet) + "\n" + "Saldo Actual: " + saldoCuenta); 
+    if (saldoCuenta >= servicio) {
+        saldoCuenta = saldoCuenta - servicio;
+        alert("Has pagado el servicio " + seleccion + "\n" + "Saldo Anterior: " + (saldoCuenta + servicio) + "\n" + "Dinero descontado: " + (servicio) + "\n" + "Saldo Actual: " + saldoCuenta); 
     } else {
         mensajeFondoInsuficiente();
     }
     actualizarSaldoEnPantalla();
 }
 
+//TRANSFERIR DINERO
 
 function transferirDinero() {
     monto = parseInt(prompt("Cuanto dinero desea transferir?"));
@@ -159,37 +223,4 @@ function confirmaTransferencia() {
     saldoCuenta = saldoCuenta - monto;
     actualizarSaldoEnPantalla();
     alert("Se han transferido: " + monto + "\n" + "Cuenta destino: " + cuenta);
-}
-
-function iniciarSesion() {
-    usuarioClave = parseInt(prompt("Ingrese su clave"));
-
-    if (usuarioClave == clave) {
-        alert("Bienvenido/a " + nombreUsuario + "ya puedes comenzar a realizar operaciones");
-        cargarNombreEnPantalla();
-        actualizarSaldoEnPantalla();
-        actualizarLimiteEnPantalla();
-    } else {
-        alert("Código incorrecto. Tu dinero ha sido retenido por cuestiones de seguridad.");
-        noCargarCuenta();
-        saldoCuenta = 0;
-    }
-}
-
-
-//Funciones que actualizan el valor de las variables en el HTML
-function cargarNombreEnPantalla() {
-    document.getElementById("nombre").innerHTML = "Bienvenido/a " + nombreUsuario;
-}
-
-function actualizarSaldoEnPantalla() {
-    document.getElementById("saldo-cuenta").innerHTML = "$" + saldoCuenta;
-}
-
-function actualizarLimiteEnPantalla() {
-    document.getElementById("limite-extraccion").innerHTML = "Tu límite de extracción es: $" + limiteExtraccion;
-}
-
-function noCargarCuenta() {
-    document.getElementById("datos-cuenta").innerHTML = "Debe loguearse para operar";
 }
