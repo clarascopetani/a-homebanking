@@ -70,6 +70,8 @@ function actualizarSaldoEnPantalla() {
     document.getElementById("saldo-cuenta").innerHTML = "$" + saldoCuenta;
     if (saldoCuenta <= 100) {
         document.getElementById("aviso-saldo").classList.add("red-container");
+    } else {
+        document.getElementById("aviso-saldo").classList.remove("red-container");
     }
 }
 
